@@ -9,7 +9,7 @@ FFLAGS-add += -O3
 USEGCC = 1
 USECLANG = 0
 
-CFLAGS-add += -Wall -O3 -ffast-math -DCFODE_STATIC
+CFLAGS-add += -Wall -Ofast -DCFODE_STATIC
 
 ifeq ($(USECLANG),1)
 USEGCC = 0

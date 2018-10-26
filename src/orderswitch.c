@@ -39,12 +39,12 @@ int orderswitch(struct lsoda_context_t * ctx, double rhup, double dsm, double *r
    If _C(meth) = 1, limit rh accordinfg to the stability region also.
 */
 	if (_C(meth) == 1) {
-		pdh = max(fabs(_C(h)) * _C(pdlast), 0.000001);
+		pdh = max0(fabs(_C(h)) * _C(pdlast), 0.000001);
 		if ((_C(nq) + 1) < maxord + 1)
-			rhup = min(rhup, sm1[(_C(nq) + 1)] / pdh);
-		rhsm = min(rhsm, sm1[_C(nq)] / pdh);
+			rhup = min0(rhup, sm1[(_C(nq) + 1)] / pdh);
+		rhsm = min0(rhsm, sm1[_C(nq)] / pdh);
 		if (_C(nq) > 1)
-			rhdn = min(rhdn, sm1[_C(nq) - 1] / pdh);
+			rhdn = min0(rhdn, sm1[_C(nq) - 1] / pdh);
 		_C(pdest) = 0.;
 	}
 	if (rhsm >= rhup) {
@@ -93,7 +93,7 @@ int orderswitch(struct lsoda_context_t * ctx, double rhup, double dsm, double *r
 		}
 	}
 	if (kflag <= -2)
-		*rh = min(*rh, 0.2);
+		*rh = min0(*rh, 0.2);
 /*
    If there is a change of order, reset _C(nq), (_C(nq) + 1), and the coefficients.
    In any case _C(h) is reset according to rh and the _C(yh) array is rescaled.

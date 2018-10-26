@@ -1,7 +1,7 @@
 include ../Make.inc
 
-CFLAGS-add += -I../src -DNDEBUG
-LDFLAGS-add += -L../src -llsoda -lm
+CFLAGS-add += -I../src -DNDEBUG -O3 -fopenmp
+LDFLAGS-add += -L../src -llsoda -lm -O3 -fopenmp -Wl,-rpath=../src/
 
 all: test
 

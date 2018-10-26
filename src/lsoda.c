@@ -221,13 +221,13 @@ static int check_opt(struct lsoda_context_t * ctx, struct lsoda_opt_t * opt) {
 			return 0;
 		}
 		if (opt->mxordn == 0) opt->mxordn = 100;
-		opt->mxordn = min(opt->mxordn, mord[1]);
+		opt->mxordn = min0(opt->mxordn, mord[1]);
 		if (opt->mxords < 0) {
 			fprintf(stderr, "[lsoda] mxords = %d is less than 0\n", opt->mxords);
 			return 0;
 		}
 		if (opt->mxords == 0) opt->mxords = 100;
-		opt->mxords = min(opt->mxords, mord[2]);
+		opt->mxords = min0(opt->mxords, mord[2]);
 	}	/* end if ( ctx->state == 1 )  */
 	if (opt->hmax < 0.) {
 		fprintf(stderr, "[lsoda] hmax < 0.\n");
@@ -252,7 +252,7 @@ static int check_opt(struct lsoda_context_t * ctx, struct lsoda_opt_t * opt) {
  * */
 static int alloc_mem(struct lsoda_context_t * ctx) {
 	int nyh = ctx->neq;
-	int lenyh = 1 + max(ctx->opt->mxordn, ctx->opt->mxords);
+	int lenyh = 1 + max0(ctx->opt->mxordn, ctx->opt->mxords);
 	long offset = 0;
 	int i;
 	long yhoff = offset;

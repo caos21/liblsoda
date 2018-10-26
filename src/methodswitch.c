@@ -56,7 +56,7 @@ void methodswitch(struct lsoda_context_t * ctx, double dsm, double pnorm, double
 			if (_C(irflag) == 0)
 				return;
 			rh2 = 2.;
-			nqm2 = min(_C(nq), mxords);
+			nqm2 = min0(_C(nq), mxords);
 		} else {
 			exsm = 1. / (double) (_C(nq) + 1);
 			rh1 = 1. / (1.2 * pow(dsm, exsm) + 0.0000012);
@@ -64,7 +64,7 @@ void methodswitch(struct lsoda_context_t * ctx, double dsm, double pnorm, double
 			pdh = _C(pdlast) * fabs(_C(h));
 			if ((pdh * rh1) > 0.00001)
 				rh1it = sm1[_C(nq)] / pdh;
-			rh1 = min(rh1, rh1it);
+			rh1 = min0(rh1, rh1it);
 			if (_C(nq) > mxords) {
 				nqm2 = mxords;
 				lm2 = mxords + 1;
@@ -119,7 +119,7 @@ void methodswitch(struct lsoda_context_t * ctx, double dsm, double pnorm, double
 	pdh = _C(pdnorm) * fabs(_C(h));
 	if ((pdh * rh1) > 0.00001)
 		rh1it = sm1[nqm1] / pdh;
-	rh1 = min(rh1, rh1it);
+	rh1 = min0(rh1, rh1it);
 	rh2 = 1. / (1.2 * pow(dsm, exsm) + 0.0000012);
 	if ((rh1 * RATIO) < (5. * rh2))
 		return;

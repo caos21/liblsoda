@@ -1,6 +1,6 @@
 
-#define max( a , b )  ( (a) > (b) ? (a) : (b) )
-#define min( a , b )  ( (a) < (b) ? (a) : (b) )
+#define max0( a , b )  ( (a) > (b) ? (a) : (b) )
+#define min0( a , b )  ( (a) < (b) ? (a) : (b) )
 
 #define ETA 2.2204460492503131e-16
 #define SQRTETA 1.4901161193847656e-08
