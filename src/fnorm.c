@@ -11,18 +11,15 @@ double fnorm(int n, double **a, double *w)
 */
 
 {
-	int             i, j;
-	double          an, sum, *ap1;
+  int i, j;
+  double an, sum, *ap1;
 
-	an = 0.;
-	for (i = 1; i <= n; i++) {
-		sum = 0.;
-		ap1 = a[i];
-		for (j = 1; j <= n; j++)
-			sum += fabs(ap1[j]) / w[j];
-		an = fmax(an, sum * w[i]);
-	}
-	return an;
-
+  an = 0.;
+  for (i = 1; i <= n; i++) {
+    sum = 0.;
+    ap1 = a[i];
+    for (j = 1; j <= n; j++) sum += fabs(ap1[j]) / w[j];
+    an = fmax(an, sum * w[i]);
+  }
+  return an;
 }
-

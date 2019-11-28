@@ -4,10 +4,8 @@
 
 #include <math.h>
 
-int 
-idamax(n, dx, incx)
-	double         *dx;
-	int             n, incx;
+int idamax(n, dx, incx) double *dx;
+int n, incx;
 
 /* Purpose : Find largest component of double vector dx
 
@@ -30,42 +28,38 @@ idamax(n, dx, incx)
 */
 
 {
-	double          dmax, xmag;
-	int             i, ii, xindex;
+  double dmax, xmag;
+  int i, ii, xindex;
 
-	xindex = 0;
-	if (n <= 0)
-		return xindex;
-	xindex = 1;
-	if (n <= 1 || incx <= 0)
-		return xindex;
+  xindex = 0;
+  if (n <= 0) return xindex;
+  xindex = 1;
+  if (n <= 1 || incx <= 0) return xindex;
 
-/* Code for increments not equal to 1.   */
+  /* Code for increments not equal to 1.   */
 
-	if (incx != 1) {
-		dmax = fabs(dx[1]);
-		ii = 2;
-		for (i = 1 + incx; i <= n * incx; i = i + incx) {
-			xmag = fabs(dx[i]);
-			if (xmag > dmax) {
-				xindex = ii;
-				dmax = xmag;
-			}
-			ii++;
-		}
-		return xindex;
-	}
-/* Code for increments equal to 1.  */
+  if (incx != 1) {
+    dmax = fabs(dx[1]);
+    ii = 2;
+    for (i = 1 + incx; i <= n * incx; i = i + incx) {
+      xmag = fabs(dx[i]);
+      if (xmag > dmax) {
+        xindex = ii;
+        dmax = xmag;
+      }
+      ii++;
+    }
+    return xindex;
+  }
+  /* Code for increments equal to 1.  */
 
-	dmax = fabs(dx[1]);
-	for (i = 2; i <= n; i++) {
-		xmag = fabs(dx[i]);
-		if (xmag > dmax) {
-			xindex = i;
-			dmax = xmag;
-		}
-	}
-	return xindex;
-
+  dmax = fabs(dx[1]);
+  for (i = 2; i <= n; i++) {
+    xmag = fabs(dx[i]);
+    if (xmag > dmax) {
+      xindex = i;
+      dmax = xmag;
+    }
+  }
+  return xindex;
 }
-

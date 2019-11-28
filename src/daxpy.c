@@ -10,10 +10,8 @@ From: tam@dragonfly.wri.com
 To: whitbeck@sanjuan.wrc.unr.edu
 */
 
-void 
-daxpy(n, da, dx, incx, dy, incy)
-	double          da, *dx, *dy;
-	int             n, incx, incy;
+void daxpy(n, da, dx, incx, dy, incy) double da, *dx, *dy;
+int n, incx, incy;
 
 /*
    Purpose : To compute
@@ -44,52 +42,44 @@ daxpy(n, da, dx, incx, dy, incy)
 */
 
 {
-	int             ix, iy, i, m;
+  int ix, iy, i, m;
 
-	if (n < 0 || da == 0.)
-		return;
+  if (n < 0 || da == 0.) return;
 
-/* Code for nonequal or nonpositive increments.  */
+  /* Code for nonequal or nonpositive increments.  */
 
-	if (incx != incy || incx < 1) {
-		ix = 1;
-		iy = 1;
-		if (incx < 0)
-			ix = (-n + 1) * incx + 1;
-		if (incy < 0)
-			iy = (-n + 1) * incy + 1;
-		for (i = 1; i <= n; i++) {
-			dy[iy] = dy[iy] + da * dx[ix];
-			ix = ix + incx;
-			iy = iy + incy;
-		}
-		return;
-	}
-/* Code for both increments equal to 1.   */
+  if (incx != incy || incx < 1) {
+    ix = 1;
+    iy = 1;
+    if (incx < 0) ix = (-n + 1) * incx + 1;
+    if (incy < 0) iy = (-n + 1) * incy + 1;
+    for (i = 1; i <= n; i++) {
+      dy[iy] = dy[iy] + da * dx[ix];
+      ix = ix + incx;
+      iy = iy + incy;
+    }
+    return;
+  }
+  /* Code for both increments equal to 1.   */
 
-/* Clean-up loop so remaining vector length is a multiple of 4.  */
+  /* Clean-up loop so remaining vector length is a multiple of 4.  */
 
-	if (incx == 1) {
-		m = n % 4;
-		if (m != 0) {
-			for (i = 1; i <= m; i++)
-				dy[i] = dy[i] + da * dx[i];
-			if (n < 4)
-				return;
-		}
-		for (i = m + 1; i <= n; i = i + 4) {
-			dy[i] = dy[i] + da * dx[i];
-			dy[i + 1] = dy[i + 1] + da * dx[i + 1];
-			dy[i + 2] = dy[i + 2] + da * dx[i + 2];
-			dy[i + 3] = dy[i + 3] + da * dx[i + 3];
-		}
-		return;
-	}
-/* Code for equal, positive, nonunit increments.   */
+  if (incx == 1) {
+    m = n % 4;
+    if (m != 0) {
+      for (i = 1; i <= m; i++) dy[i] = dy[i] + da * dx[i];
+      if (n < 4) return;
+    }
+    for (i = m + 1; i <= n; i = i + 4) {
+      dy[i] = dy[i] + da * dx[i];
+      dy[i + 1] = dy[i + 1] + da * dx[i + 1];
+      dy[i + 2] = dy[i + 2] + da * dx[i + 2];
+      dy[i + 3] = dy[i + 3] + da * dx[i + 3];
+    }
+    return;
+  }
+  /* Code for equal, positive, nonunit increments.   */
 
-	for (i = 1; i <= n * incx; i = i + incx)
-		dy[i] = da * dx[i] + dy[i];
-	return;
-
+  for (i = 1; i <= n * incx; i = i + incx) dy[i] = da * dx[i] + dy[i];
+  return;
 }
-

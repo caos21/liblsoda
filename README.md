@@ -17,7 +17,7 @@ dy(i)/dt = f(i) = f(i,t,y(1),y(2),...,y(neq)) (i = 1,...,neq).
 This code has only been tested on Linux to date.
 
 ```
-git clone http://github.com/sdwfrost/liblsoda
+git clone http://github.com/caos21/liblsoda
 cd liblsoda
 make
 ```
@@ -29,7 +29,6 @@ If you want to compile with OpenMP, using `CFLAGS=-fopenmp make` instead.
 ```
 cd test
 make
-export LD_LIBRARY_PATH=../src:$LD_LIBRARY_PATH
 ./test
 ```
 
@@ -53,7 +52,7 @@ at t=   4.0000e+10 y=   1.431150e-08   5.724606e-14   1.000000e+00
 
 ## Contributors
 
-This code has a compllicated history; all I have done is to refactor the code so that it compiles cleanly, and generates a shared library.
+This code has a complicated history; all I have done is to refactor the code so that it compiles cleanly, and generates a shared library.
 
 - The original code by Petzold and Marsh was written in Fortran, then converted to C. It is available from [here](http://www.ccl.net/cca/software/SOURCES/C/kinetics2/index.shtml), and the code is mirrored in the `orig/lsoda-orig` subdirectory.
 - Heng Li [@lh3](http://github.com/lh3) refactored the code, which is available [here](http://github.com/lh3/misc). The code is mirrored in the `orig/lsoda-lh3` subdirectory.

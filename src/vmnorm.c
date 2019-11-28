@@ -11,13 +11,10 @@ double vmnorm(int n, double *v, double *w)
 */
 
 {
-	int             i;
-	double          vm;
+  int i;
+  double vm;
 
-	vm = 0.;
-	for (i = 1; i <= n; i++)
-		vm = fmax(vm, fabs(v[i]) * w[i]);
-	return vm;
-
+  vm = 0.;
+  for (i = 1; i <= n; i++) vm = fmax(vm, fabs(v[i]) * w[i]);
+  return vm;
 }
-

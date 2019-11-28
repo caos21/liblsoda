@@ -4,10 +4,8 @@
  * dgefa.c *
  ***********/
 
-void 
-dgefa(a, n, ipvt, info)
-	double        **a;
-	int             n, *ipvt, *info;
+void dgefa(a, n, ipvt, info) double **a;
+int n, *ipvt, *info;
 
 /*
    Purpose : dgefa factors a double matrix by Gaussian elimination.
@@ -49,54 +47,52 @@ dgefa(a, n, ipvt, info)
 */
 
 {
-	int             j, k, i;
-	double          t;
+  int j, k, i;
+  double t;
 
-/* Gaussian elimination with partial pivoting.   */
+  /* Gaussian elimination with partial pivoting.   */
 
-	*info = 0;
-	for (k = 1; k <= n - 1; k++) {
-/*
-   Find j = pivot index.  Note that a[k]+k-1 is the address of
-   the 0-th element of the row vector whose 1st element is a[k][k].
-*/
-		j = idamax(n - k + 1, a[k] + k - 1, 1) + k - 1;
-		ipvt[k] = j;
-/*
-   Zero pivot implies this row already triangularized.
-*/
-		if (a[k][j] == 0.) {
-			*info = k;
-			continue;
-		}
-/*
-   Interchange if necessary.
-*/
-		if (j != k) {
-			t = a[k][j];
-			a[k][j] = a[k][k];
-			a[k][k] = t;
-		}
-/*
-   Compute multipliers.
-*/
-		t = -1. / a[k][k];
-		dscal(n - k, t, a[k] + k, 1);
-/*
-   Column elimination with row indexing.
-*/
-		for (i = k + 1; i <= n; i++) {
-			t = a[i][j];
-			if (j != k) {
-				a[i][j] = a[i][k];
-				a[i][k] = t;
-			}
-			daxpy(n - k, t, a[k] + k, 1, a[i] + k, 1);
-		}
-	}			/* end k-loop  */
+  *info = 0;
+  for (k = 1; k <= n - 1; k++) {
+    /*
+       Find j = pivot index.  Note that a[k]+k-1 is the address of
+       the 0-th element of the row vector whose 1st element is a[k][k].
+    */
+    j = idamax(n - k + 1, a[k] + k - 1, 1) + k - 1;
+    ipvt[k] = j;
+    /*
+       Zero pivot implies this row already triangularized.
+    */
+    if (a[k][j] == 0.) {
+      *info = k;
+      continue;
+    }
+    /*
+       Interchange if necessary.
+    */
+    if (j != k) {
+      t = a[k][j];
+      a[k][j] = a[k][k];
+      a[k][k] = t;
+    }
+    /*
+       Compute multipliers.
+    */
+    t = -1. / a[k][k];
+    dscal(n - k, t, a[k] + k, 1);
+    /*
+       Column elimination with row indexing.
+    */
+    for (i = k + 1; i <= n; i++) {
+      t = a[i][j];
+      if (j != k) {
+        a[i][j] = a[i][k];
+        a[i][k] = t;
+      }
+      daxpy(n - k, t, a[k] + k, 1, a[i] + k, 1);
+    }
+  } /* end k-loop  */
 
-	ipvt[n] = n;
-	if (a[n][n] == 0.)
-		*info = n;
-
+  ipvt[n] = n;
+  if (a[n][n] == 0.) *info = n;
 }

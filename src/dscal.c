@@ -3,10 +3,8 @@
  * dscal.c *
  ***********/
 
-void 
-dscal(n, da, dx, incx)
-	double          da, *dx;
-	int             n, incx;
+void dscal(n, da, dx, incx) double da, *dx;
+int n, incx;
 
 /* Purpose : scalar vector multiplication
 
@@ -32,37 +30,31 @@ dscal(n, da, dx, incx)
 */
 
 {
-	int             m, i;
+  int m, i;
 
-	if (n <= 0)
-		return;
+  if (n <= 0) return;
 
-/* Code for increments not equal to 1.  */
+  /* Code for increments not equal to 1.  */
 
-	if (incx != 1) {
-		for (i = 1; i <= n * incx; i = i + incx)
-			dx[i] = da * dx[i];
-		return;
-	}
-/* Code for increments equal to 1.  */
+  if (incx != 1) {
+    for (i = 1; i <= n * incx; i = i + incx) dx[i] = da * dx[i];
+    return;
+  }
+  /* Code for increments equal to 1.  */
 
-/* Clean-up loop so remaining vector length is a multiple of 5.  */
+  /* Clean-up loop so remaining vector length is a multiple of 5.  */
 
-	m = n % 5;
-	if (m != 0) {
-		for (i = 1; i <= m; i++)
-			dx[i] = da * dx[i];
-		if (n < 5)
-			return;
-	}
-	for (i = m + 1; i <= n; i = i + 5) {
-		dx[i] = da * dx[i];
-		dx[i + 1] = da * dx[i + 1];
-		dx[i + 2] = da * dx[i + 2];
-		dx[i + 3] = da * dx[i + 3];
-		dx[i + 4] = da * dx[i + 4];
-	}
-	return;
-
+  m = n % 5;
+  if (m != 0) {
+    for (i = 1; i <= m; i++) dx[i] = da * dx[i];
+    if (n < 5) return;
+  }
+  for (i = m + 1; i <= n; i = i + 5) {
+    dx[i] = da * dx[i];
+    dx[i + 1] = da * dx[i + 1];
+    dx[i + 2] = da * dx[i + 2];
+    dx[i + 3] = da * dx[i + 3];
+    dx[i + 4] = da * dx[i + 4];
+  }
+  return;
 }
-

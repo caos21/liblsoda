@@ -3,10 +3,8 @@
  * dgesl.c *
  ***********/
 
-void 
-dgesl(a, n, ipvt, b, job)
-	double        **a, *b;
-	int             n, *ipvt, job;
+void dgesl(a, n, ipvt, b, job) double **a, *b;
+int n, *ipvt, job;
 
 /*
    Purpose : dgesl solves the linear system
@@ -45,58 +43,56 @@ dgesl(a, n, ipvt, b, job)
 */
 
 {
-	int             k, j;
-	double          t;
+  int k, j;
+  double t;
 
-	/* int nm1 = n - 1; */
+  /* int nm1 = n - 1; */
 
-/*
-   Job = 0, solve a * x = b.
-*/
-	if (job == 0) {
-/*
-   First solve L * y = b.
-*/
-		for (k = 1; k <= n; k++) {
-			t = ddot(k - 1, a[k], 1, b, 1);
-			b[k] = (b[k] - t) / a[k][k];
-		}
-/*
-   Now solve U * x = y.
-*/
-		for (k = n - 1; k >= 1; k--) {
-			b[k] = b[k] + ddot(n - k, a[k] + k, 1, b + k, 1);
-			j = ipvt[k];
-			if (j != k) {
-				t = b[j];
-				b[j] = b[k];
-				b[k] = t;
-			}
-		}
-		return;
-	}
-/*
-   Job = nonzero, solve Transpose(a) * x = b.
+  /*
+     Job = 0, solve a * x = b.
+  */
+  if (job == 0) {
+    /*
+       First solve L * y = b.
+    */
+    for (k = 1; k <= n; k++) {
+      t = ddot(k - 1, a[k], 1, b, 1);
+      b[k] = (b[k] - t) / a[k][k];
+    }
+    /*
+       Now solve U * x = y.
+    */
+    for (k = n - 1; k >= 1; k--) {
+      b[k] = b[k] + ddot(n - k, a[k] + k, 1, b + k, 1);
+      j = ipvt[k];
+      if (j != k) {
+        t = b[j];
+        b[j] = b[k];
+        b[k] = t;
+      }
+    }
+    return;
+  }
+  /*
+     Job = nonzero, solve Transpose(a) * x = b.
 
-   First solve Transpose(U) * y = b.
-*/
-	for (k = 1; k <= n - 1; k++) {
-		j = ipvt[k];
-		t = b[j];
-		if (j != k) {
-			b[j] = b[k];
-			b[k] = t;
-		}
-		daxpy(n - k, t, a[k] + k, 1, b + k, 1);
-	}
-/*
-   Now solve Transpose(L) * x = y.
-*/
-	for (k = n; k >= 1; k--) {
-		b[k] = b[k] / a[k][k];
-		t = -b[k];
-		daxpy(k - 1, t, a[k], 1, b, 1);
-	}
-
+     First solve Transpose(U) * y = b.
+  */
+  for (k = 1; k <= n - 1; k++) {
+    j = ipvt[k];
+    t = b[j];
+    if (j != k) {
+      b[j] = b[k];
+      b[k] = t;
+    }
+    daxpy(n - k, t, a[k] + k, 1, b + k, 1);
+  }
+  /*
+     Now solve Transpose(L) * x = y.
+  */
+  for (k = n; k >= 1; k--) {
+    b[k] = b[k] / a[k][k];
+    t = -b[k];
+    daxpy(k - 1, t, a[k], 1, b, 1);
+  }
 }
-
